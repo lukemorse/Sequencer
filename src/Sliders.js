@@ -2,7 +2,7 @@ import React from 'react';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
-export class TempoSlider extends React.Component {
+class TempoSlider extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -31,9 +31,9 @@ export class TempoSlider extends React.Component {
   }
 }
 
-export class GainSlider extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+class GainSlider extends React.Component {
+  constructor() {
+    super();
     this.state = {
       value: 1,
     };
@@ -53,9 +53,11 @@ export class GainSlider extends React.Component {
     return (
       <div>
         <div className="slider">
-          <Slider min={100} max={400} value={value} onChange={this.handleChange} />
+          <Slider min={1} max={100} value={value} onChange={this.handleChange} />
         </div>
       </div>
     );
   }
 }
+
+export {TempoSlider, GainSlider};

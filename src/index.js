@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TempoSlider from './Sliders.js ';
+import {TempoSlider, GainSlider} from './Sliders.js';
 
 var numBeats = 16;
 var subDiv = 4;
