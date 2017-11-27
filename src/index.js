@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Slider from 'react-rangeslider';
-import 'react-rangeslider/lib/index.css';
+import TempoSlider from './Sliders.js ';
 
 var numBeats = 16;
 var subDiv = 4;
@@ -53,34 +52,6 @@ class SampleButton extends React.Component {
   }
 }
 
-class MySlider extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      value: 0,
-    };
-  }
-
-  handleChange = value => {
-    if (value !== this.state.value) {
-      this.setState({
-        value: value,
-      });
-    }
-  };
-
-  render() {
-    const {value} = this.state;
-    return (
-      <div>
-        <div className="slider">
-          <Slider min={1} max={7} value={value} onChange={this.handleChange} />
-        </div>
-      </div>
-    );
-  }
-}
-
 class Sampler extends React.Component {
   constructor(props) {
     super(props);
@@ -88,6 +59,7 @@ class Sampler extends React.Component {
       buttons: Array(sounds.length).fill(Array(buttonCols.length).fill(false)),
       currentBeat: 0,
       isPlaying: false,
+      tempo: 200,
     };
   }
 
@@ -99,7 +71,7 @@ class Sampler extends React.Component {
       });
     } else {
       this.setState({
-        interval: setInterval(() => this.advanceBeat(), 200),
+        interval: setInterval(() => this.advanceBeat(), this.state.tempo),
         isPlaying: true,
       });
     }
@@ -165,10 +137,18 @@ class Sampler extends React.Component {
     this.setState({currentBeat});
   }
 
+  changeTempo(mul) {
+    clearInterval(this.state.interval);
+    this.setState({
+      tempo: mul,
+      interval: setInterval(() => this.advanceBeat(), mul),
+    });
+  }
+
   render() {
     return (
       <div>
-        {/*<MySlider />*/}
+        <TempoSlider onChange={mul => this.changeTempo(mul)} />
         <PlayPauseButton onClick={() => this.playPauseBeat()} status={this.state.isPlaying ? 'PAUSE' : 'PLAY'} />
         <div className={'ButtonMatrix'}>
           <ul>{this.makeTableOfButtons()}</ul>
