@@ -24,7 +24,7 @@ class TempoSlider extends React.Component {
     return (
       <div>
         <div className="slider">
-          <Slider min={100} max={400} value={value} onChange={this.handleChange} />
+          <Slider min={75} max={350} step={25} reverse={false} value={value} onChange={this.handleChange} />
         </div>
       </div>
     );

@@ -137,18 +137,19 @@ class Sampler extends React.Component {
     this.setState({currentBeat});
   }
 
-  changeTempo(mul) {
+  changeTempo(tempo) {
     clearInterval(this.state.interval);
+    const shouldSetInterval = this.state.isPlaying;
     this.setState({
-      tempo: mul,
-      interval: setInterval(() => this.advanceBeat(), mul),
+      tempo: tempo,
+      interval: shouldSetInterval ? setInterval(() => this.advanceBeat(), 30000 / tempo) : null,
     });
   }
 
   render() {
     return (
       <div>
-        <TempoSlider onChange={mul => this.changeTempo(mul)} />
+        <TempoSlider onChange={tempo => this.changeTempo(tempo)} />
         <PlayPauseButton onClick={() => this.playPauseBeat()} status={this.state.isPlaying ? 'PAUSE' : 'PLAY'} />
         <div className={'ButtonMatrix'}>
           <ul>{this.makeTableOfButtons()}</ul>
