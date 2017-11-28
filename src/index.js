@@ -6,6 +6,7 @@ import {TempoSlider, GainSlider} from './Sliders.js';
 var numBeats = 16;
 var subDiv = 4;
 var buttonCols = [];
+var gain = 0.5;
 for (var i = 1; i <= numBeats; i++) {
   buttonCols.push(i);
 }
@@ -56,10 +57,17 @@ class Sampler extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      buttons: Array(sounds.length).fill(Array(buttonCols.length).fill(false)),
+      // buttons: Array(sounds.length).fill(Array(buttonCols.length).fill(false)),
+      buttons: [
+        [true, false, false, false, false, false, false, false, true, false, false, true, false, false, false, false],
+        [false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false],
+        [false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false],
+        [false, false, false, false, false, false, false, true, false, true, false, false, true, false, false, false],
+      ],
       currentBeat: 0,
       isPlaying: false,
-      tempo: 200,
+      tempo: 225,
+      gain: 0.5,
     };
   }
 
@@ -146,10 +154,15 @@ class Sampler extends React.Component {
     });
   }
 
+  changeGain(gain) {
+    gain = gain;
+  }
+
   render() {
     return (
       <div>
         <TempoSlider onChange={tempo => this.changeTempo(tempo)} />
+        <GainSlider onChange={gain => this.changeGain(gain)} />
         <PlayPauseButton onClick={() => this.playPauseBeat()} status={this.state.isPlaying ? 'PAUSE' : 'PLAY'} />
         <div className={'ButtonMatrix'}>
           <ul>{this.makeTableOfButtons()}</ul>
@@ -163,6 +176,8 @@ class Sampler extends React.Component {
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
+var gainNode = audioContext.createGain();
+gainNode.gain.value = gain;
 
 const promises = sounds.map(({url}, index) => {
   return fetch(url)
@@ -180,7 +195,7 @@ const promises = sounds.map(({url}, index) => {
 function playSound(index) {
   const node = audioContext.createBufferSource();
   node.buffer = sounds[index].buffer;
-  node.connect(audioContext.destination);
+  node.connect(gainNode).connect(audioContext.destination);
   node.start();
 }
 

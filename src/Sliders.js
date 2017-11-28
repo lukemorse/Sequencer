@@ -53,7 +53,7 @@ class GainSlider extends React.Component {
     return (
       <div>
         <div className="slider">
-          <Slider min={1} max={100} value={value} onChange={this.handleChange} />
+          <Slider min={0.0} max={1.0} step={0.1} value={value} onChange={this.handleChange} />
         </div>
       </div>
     );
