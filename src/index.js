@@ -154,15 +154,11 @@ class Sampler extends React.Component {
     });
   }
 
-  changeGain(gain) {
-    gain = gain;
-  }
-
   render() {
     return (
       <div>
         <TempoSlider onChange={tempo => this.changeTempo(tempo)} />
-        <GainSlider onChange={gain => this.changeGain(gain)} />
+        <GainSlider onChange={gain => changeGain(gain)} />
         <PlayPauseButton onClick={() => this.playPauseBeat()} status={this.state.isPlaying ? 'PAUSE' : 'PLAY'} />
         <div className={'ButtonMatrix'}>
           <ul>{this.makeTableOfButtons()}</ul>
@@ -197,6 +193,10 @@ function playSound(index) {
   node.buffer = sounds[index].buffer;
   node.connect(gainNode).connect(audioContext.destination);
   node.start();
+}
+
+function changeGain(gain) {
+  gainNode.gain.value = gain;
 }
 
 Promise.all(promises)
