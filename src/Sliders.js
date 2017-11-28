@@ -6,7 +6,7 @@ class TempoSlider extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      value: 1,
+      value: 225,
     };
   }
 
@@ -35,7 +35,7 @@ class GainSlider extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: 1,
+      value: 0.5,
     };
   }
 

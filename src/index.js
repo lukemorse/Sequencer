@@ -79,7 +79,7 @@ class Sampler extends React.Component {
       });
     } else {
       this.setState({
-        interval: setInterval(() => this.advanceBeat(), this.state.tempo),
+        interval: setInterval(() => this.advanceBeat(), 30000 / this.state.tempo),
         isPlaying: true,
       });
     }
