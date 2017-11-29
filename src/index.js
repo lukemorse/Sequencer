@@ -191,7 +191,8 @@ const promises = sounds.map(({url}, index) => {
 function playSound(index) {
   const node = audioContext.createBufferSource();
   node.buffer = sounds[index].buffer;
-  node.connect(gainNode).connect(audioContext.destination);
+  const ampSig = node.connect(gainNode);
+  ampSig.connect(audioContext.destination);
   node.start();
 }
 
