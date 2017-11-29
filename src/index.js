@@ -6,7 +6,6 @@ import {TempoSlider, GainSlider} from './Sliders.js';
 var numBeats = 16;
 var subDiv = 4;
 var buttonCols = [];
-var gain = 0.5;
 for (var i = 1; i <= numBeats; i++) {
   buttonCols.push(i);
 }
@@ -173,7 +172,8 @@ class Sampler extends React.Component {
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 var gainNode = audioContext.createGain();
-gainNode.gain.value = gain;
+gainNode.gain.value = 0.5;
+gainNode.connect(audioContext.destination);
 
 const promises = sounds.map(({url}, index) => {
   return fetch(url)
@@ -191,8 +191,8 @@ const promises = sounds.map(({url}, index) => {
 function playSound(index) {
   const node = audioContext.createBufferSource();
   node.buffer = sounds[index].buffer;
-  const ampSig = node.connect(gainNode);
-  ampSig.connect(audioContext.destination);
+  node.connect(audioContext.destination); //This doesn't seem to allow for dynamic control
+  // node.connect(gainNode).connect(audioContext.destination);  //This works in Chrome, but not in Safari
   node.start();
 }
 
