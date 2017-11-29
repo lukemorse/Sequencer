@@ -64,7 +64,7 @@ class Sampler extends React.Component {
         [false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false],
         [false, false, false, false, false, false, false, true, false, true, false, false, true, false, false, false],
       ],
-      currentBeat: 0,
+      currentBeat: null,
       isPlaying: false,
       tempo: 225,
       gain: 0.5,
@@ -135,7 +135,7 @@ class Sampler extends React.Component {
   }
 
   advanceBeat() {
-    const currentBeat = (this.state.currentBeat + 1) % buttonCols.length;
+    let currentBeat = this.state.currentBeat !== null ? (this.state.currentBeat + 1) % buttonCols.length : 0;
     for (let i = 0; i < this.state.buttons.length; ++i) {
       const enabled = this.state.buttons[i][currentBeat];
       if (enabled) {
