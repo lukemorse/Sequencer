@@ -11,6 +11,10 @@ button {
   opacity: 0.8;
 }
 
+.buttonColumn {
+  display: inline-block;
+}
+
 ul {
   padding-left: 0;
 }

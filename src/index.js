@@ -5,9 +5,9 @@ import {TempoSlider, GainSlider} from './Sliders.js';
 
 var numBeats = 16;
 var subDiv = 4;
-var buttonCols = [];
+var buttonRows = [];
 for (var i = 1; i <= numBeats; i++) {
-  buttonCols.push(i);
+  buttonRows.push(i);
 }
 
 const sounds = [
@@ -56,7 +56,7 @@ class Sampler extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // buttons: Array(sounds.length).fill(Array(buttonCols.length).fill(false)),
+      // buttons: Array(sounds.length).fill(Array(buttonRows.length).fill(false)),
       buttons: [
         [true, false, false, false, false, false, false, false, true, false, false, true, false, false, false, false],
         [false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false],
@@ -102,21 +102,21 @@ class Sampler extends React.Component {
     return column === 8 && row === 3 ? <br /> : null;
   }
 
-  makeColumnOfButtons(column, name) {
+  makeColumnOfButtons(row) {
     // className={this.getButtonClassName(this.state.buttons[column][row], row)}
-    const buttons = buttonCols.map((beat, row) => (
-      <span key={beat + name}>
+    const buttons = sounds.map(({name}, column) => (
+      <div key={row + name}>
         {this.checkForLineBreak(column, row)}
         <SampleButton
-          key={beat + name}
-          beat={beat}
+          key={row + name}
+          beat={row}
           activeBeat={this.props.activeBeat}
           isPressed={this.state.buttons[column][row]}
           onClick={() => this.handleClick(column, row)}
           className={this.state.buttons[column][row] ? 'active' : ''}
           id={this.state.currentBeat === row ? 'currentBeat' : ''}
         />
-      </span>
+      </div>
     ));
     return <ul>{buttons}</ul>;
   }
@@ -135,14 +135,16 @@ class Sampler extends React.Component {
   }
 
   makeTableOfButtons() {
-    const buttonColumns = sounds.map(({name}, column) => (
-      <div key={name}>{this.makeColumnOfButtons(column, name)}</div>
+    const buttonColumns = buttonRows.map(row => (
+      <div key={row} className={'buttonColumn'}>
+        {this.makeColumnOfButtons(row)}
+      </div>
     ));
     return buttonColumns;
   }
 
   advanceBeat() {
-    let currentBeat = this.state.currentBeat !== null ? (this.state.currentBeat + 1) % buttonCols.length : 0;
+    let currentBeat = this.state.currentBeat !== null ? (this.state.currentBeat + 1) % buttonRows.length : 0;
     for (let i = 0; i < this.state.buttons.length; ++i) {
       const enabled = this.state.buttons[i][currentBeat];
       if (enabled) {
