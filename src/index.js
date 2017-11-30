@@ -97,18 +97,26 @@ class Sampler extends React.Component {
     return result;
   }
 
+  checkForLineBreak(column, row) {
+    console.log(column, row);
+    return column === 8 && row === 3 ? <br /> : null;
+  }
+
   makeColumnOfButtons(column, name) {
     // className={this.getButtonClassName(this.state.buttons[column][row], row)}
     const buttons = buttonCols.map((beat, row) => (
-      <SampleButton
-        key={beat + name}
-        beat={beat}
-        activeBeat={this.props.activeBeat}
-        isPressed={this.state.buttons[column][row]}
-        onClick={() => this.handleClick(column, row)}
-        className={this.state.buttons[column][row] ? 'active' : ''}
-        id={this.state.currentBeat === row ? 'currentBeat' : ''}
-      />
+      <span key={beat + name}>
+        {this.checkForLineBreak(column, row)}
+        <SampleButton
+          key={beat + name}
+          beat={beat}
+          activeBeat={this.props.activeBeat}
+          isPressed={this.state.buttons[column][row]}
+          onClick={() => this.handleClick(column, row)}
+          className={this.state.buttons[column][row] ? 'active' : ''}
+          id={this.state.currentBeat === row ? 'currentBeat' : ''}
+        />
+      </span>
     ));
     return <ul>{buttons}</ul>;
   }
@@ -202,9 +210,6 @@ function changeGain(gain) {
 Promise.all(promises)
   .then(() => {
     const rootComponent = ReactDOM.render(<Sampler />, document.getElementById('root'));
-    // let interval = setInterval(() => rootComponent.advanceBeat(), 200);
-    // later, to cancel:
-    // clearInterval(interval);
   })
   .catch(err => {
     // TODO: render a "loading failed" component probably
