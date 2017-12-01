@@ -9,20 +9,27 @@ button {
   text-decoration: none;
   outline: none;
   opacity: 0.8;
+  display: block;
 }
 
 .buttonColumn {
-  display: inline-block;
+  display: inline;
+  float: left;
+}
+
+br {
+  clear: both;
 }
 
 ul {
   padding-left: 0;
+  text-align: center;
 }
 
 .ButtonMatrix {
   text-align: center;
   display: block;
-  width: 100%;
+  width: 50%;
   margin: 0 auto;
 }
 

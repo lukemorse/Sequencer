@@ -6,7 +6,7 @@ import {TempoSlider, GainSlider} from './Sliders.js';
 var numBeats = 16;
 var subDiv = 4;
 var buttonRows = [];
-for (var i = 1; i <= numBeats; i++) {
+for (var i = 0; i < numBeats; i++) {
   buttonRows.push(i);
 }
 
@@ -97,28 +97,30 @@ class Sampler extends React.Component {
     return result;
   }
 
-  checkForLineBreak(column, row) {
-    console.log(column, row);
-    return column === 8 && row === 3 ? <br /> : null;
+  checkForLineBreak(row) {
+    console.log(row);
+    return row === 8 ? (
+      <div>
+        <br />
+        <br />
+      </div>
+    ) : null;
   }
 
   makeColumnOfButtons(row) {
     // className={this.getButtonClassName(this.state.buttons[column][row], row)}
     const buttons = sounds.map(({name}, column) => (
-      <div key={row + name}>
-        {this.checkForLineBreak(column, row)}
-        <SampleButton
-          key={row + name}
-          beat={row}
-          activeBeat={this.props.activeBeat}
-          isPressed={this.state.buttons[column][row]}
-          onClick={() => this.handleClick(column, row)}
-          className={this.state.buttons[column][row] ? 'active' : ''}
-          id={this.state.currentBeat === row ? 'currentBeat' : ''}
-        />
-      </div>
+      <SampleButton
+        key={row + name}
+        beat={row}
+        activeBeat={this.props.activeBeat}
+        isPressed={this.state.buttons[column][row]}
+        onClick={() => this.handleClick(column, row)}
+        className={this.state.buttons[column][row] ? 'active' : ''}
+        id={this.state.currentBeat === row ? 'currentBeat' : ''}
+      />
     ));
-    return <ul>{buttons}</ul>;
+    return <ul className={'buttonColumn'}>{buttons}</ul>;
   }
 
   handleClick(i, j) {
@@ -136,7 +138,8 @@ class Sampler extends React.Component {
 
   makeTableOfButtons() {
     const buttonColumns = buttonRows.map(row => (
-      <div key={row} className={'buttonColumn'}>
+      <div key={row}>
+        {this.checkForLineBreak(row)}
         {this.makeColumnOfButtons(row)}
       </div>
     ));
