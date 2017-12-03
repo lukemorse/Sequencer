@@ -13,8 +13,8 @@ button {
 }
 
 .buttonColumn {
-  display: inline;
   float: left;
+  /*display: inline-block;*/
 }
 
 br {
@@ -29,8 +29,6 @@ ul {
 .ButtonMatrix {
   text-align: center;
   display: block;
-  width: 50%;
-  margin: 0 auto;
 }
 
 .PlayPauseButton {
