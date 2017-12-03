@@ -4,12 +4,14 @@ button {
   -moz-border-radius: 14;
   border-radius: 14px;
   color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
+  margin: 0.12em;
+  padding: 0.5em 1em;
   text-decoration: none;
   outline: none;
   opacity: 0.8;
   display: block;
+  width: 3.2em;
+  height: 3.2em;
 }
 
 .buttonColumn {
@@ -34,8 +36,9 @@ ul {
 .PlayPauseButton {
   text-align: center;
   display: block;
-  width: 15%;
+  width: 50%;
   margin: 0 auto;
+  font-size: 20px;
 }
 
 button:hover {
