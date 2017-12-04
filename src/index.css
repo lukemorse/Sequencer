@@ -1,5 +1,9 @@
+* {
+  background-color: black;
+}
+
 button {
-  background: #3498db;
+  background: #f98f45;
   -webkit-border-radius: 14;
   -moz-border-radius: 14;
   border-radius: 14px;
@@ -8,7 +12,7 @@ button {
   padding: 0.5em 1em;
   text-decoration: none;
   outline: none;
-  opacity: 0.8;
+  opacity: 0.6;
   display: block;
   width: 3.2em;
   height: 3.2em;
@@ -17,6 +21,7 @@ button {
 .buttonColumn {
   float: left;
   /*display: inline-block;*/
+  text-align: center;
 }
 
 br {
@@ -31,6 +36,7 @@ ul {
 .ButtonMatrix {
   text-align: center;
   display: block;
+  margin-left: 22%;
 }
 
 .PlayPauseButton {
@@ -56,14 +62,11 @@ button.altBeat {
 }
 
 button.active {
-  box-sizing: 0;
-  background: #b20000;
-  outline: none;
+  background: rgb(25, 163, 167);
 }
 
 button#currentBeat {
   opacity: 1;
-  background: #32cd32;
 }
 
 .slider {

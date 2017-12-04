@@ -99,12 +99,8 @@ class Sampler extends React.Component {
 
   checkForLineBreak(row) {
     console.log(row);
-    return row === 8 ? (
-      <div>
-        <br />
-        <br />
-      </div>
-    ) : null;
+    return row === 8 ? <div>{/*<br />
+        <br />*/}</div> : null;
   }
 
   makeColumnOfButtons(row) {
