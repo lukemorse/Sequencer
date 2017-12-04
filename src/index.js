@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Async from 'react-promise';
 import './index.css';
 import {TempoSlider, GainSlider} from './Sliders.js';
 
@@ -9,6 +10,12 @@ var buttonRows = [];
 for (var i = 0; i < numBeats; i++) {
   buttonRows.push(i);
 }
+
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
+const gainNode = audioContext.createGain();
+gainNode.gain.value = 0.5;
+gainNode.connect(audioContext.destination);
 
 const sounds = [
   {
@@ -28,6 +35,34 @@ const sounds = [
     url: 'snare 347.wav',
   },
 ];
+
+const promises = sounds.map(({url}, index) => {
+  return fetch(url)
+    .then(response => {
+      return response.arrayBuffer();
+    })
+    .then(body => {
+      return new Promise((resolve, reject) => audioContext.decodeAudioData(body, resolve, reject));
+    })
+    .then(decoded => {
+      sounds[index].buffer = decoded;
+    });
+});
+
+let SoundComponents = promises.map(prom => {
+  return <Async promise={prom} />;
+});
+
+function playSound(index) {
+  const node = audioContext.createBufferSource();
+  node.buffer = sounds[index].buffer;
+  node.connect(gainNode);
+  node.start();
+}
+
+function changeGain(gain) {
+  gainNode.gain.value = gain;
+}
 
 class PlayPauseButton extends React.Component {
   constructor() {
@@ -176,6 +211,7 @@ class Sampler extends React.Component {
         <div className={'ButtonMatrix'}>
           <ul>{this.makeTableOfButtons()}</ul>
         </div>
+        <SoundComponents />
       </div>
     );
   }
@@ -183,41 +219,11 @@ class Sampler extends React.Component {
 
 // ========================================
 
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContext();
-const gainNode = audioContext.createGain();
-gainNode.gain.value = 0.5;
-gainNode.connect(audioContext.destination);
-
-const promises = sounds.map(({url}, index) => {
-  return fetch(url)
-    .then(response => {
-      return response.arrayBuffer();
-    })
-    .then(body => {
-      return new Promise((resolve, reject) => audioContext.decodeAudioData(body, resolve, reject));
-    })
-    .then(decoded => {
-      sounds[index].buffer = decoded;
-    });
-});
-
-function playSound(index) {
-  const node = audioContext.createBufferSource();
-  node.buffer = sounds[index].buffer;
-  node.connect(gainNode);
-  node.start();
-}
-
-function changeGain(gain) {
-  gainNode.gain.value = gain;
-}
-
-Promise.all(promises)
-  .then(() => {
-    const rootComponent = ReactDOM.render(<Sampler />, document.getElementById('root'));
-  })
-  .catch(err => {
-    // TODO: render a "loading failed" component probably
-    document.body.innerHTML = `<h1>blurrr some kinda err: ${err}</h1>`;
-  });
+// Promise.all(promises)
+//   .then(() => {
+//     const rootComponent = ReactDOM.render(<Sampler />, document.getElementById('root'));
+//   })
+//   .catch(err => {
+//     // TODO: render a "loading failed" component probably
+//     document.body.innerHTML = `<h1>blurrr some kinda err: ${err}</h1>`;
+//   });
