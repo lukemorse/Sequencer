@@ -98,9 +98,14 @@ class Sampler extends React.Component {
   }
 
   checkForLineBreak(row) {
-    console.log(row);
-    return row === 8 ? <div>{/*<br />
-        <br />*/}</div> : null;
+    if (window.matchMedia('(max-width: 800px)').matches && row === 8) {
+      return (
+        <div>
+          <br />
+          <br />
+        </div>
+      );
+    }
   }
 
   makeColumnOfButtons(row) {

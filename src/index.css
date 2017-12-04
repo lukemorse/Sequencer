@@ -3,7 +3,7 @@
 }
 
 button {
-  background: #f98f45;
+  background: lightgrey;
   -webkit-border-radius: 14;
   -moz-border-radius: 14;
   border-radius: 14px;
@@ -11,6 +11,7 @@ button {
   margin: 0.12em;
   padding: 0.5em 1em;
   text-decoration: none;
+  color: black;
   outline: none;
   opacity: 0.6;
   display: block;
@@ -36,7 +37,6 @@ ul {
 .ButtonMatrix {
   text-align: center;
   display: block;
-  margin-left: 22%;
 }
 
 .PlayPauseButton {
@@ -72,4 +72,10 @@ button#currentBeat {
 .slider {
   width: 300px;
   margin: 0 auto;
+}
+
+@media (min-width: 800px) {
+  .ButtonMatrix {
+    margin-left: 22%;
+  }
 }
