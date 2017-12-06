@@ -1,6 +1,7 @@
 import React from 'react';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
+import './misc.css';
 
 class TempoSlider extends React.Component {
   constructor(props, context) {
